@@ -34,8 +34,13 @@ WidgetLED vcirculation(V1);
 WidgetLED vjets1(V2);
 WidgetLED vjets2(V3);
 
-int switchStatusLast = LOW;  // last status switch
-int LEDStatus = LOW;         // current status LED
+int switchStatus1Last = LOW;  // last status switch
+int LEDStatus1 = LOW;         // current status LED
+int switchStatus2Last = LOW;  // last status switch
+int LEDStatus2 = LOW;         // current status LED
+int switchStatus3Last = LOW;  // last status switch
+int LEDStatus3 = LOW;         // current status LED
+int blynkset = 0;
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
@@ -112,6 +117,7 @@ void setup() {
 
 void loop() {
   Blynk.run();
+  leds();
   gettemp();
   getpushbutton();
   printval();
@@ -119,10 +125,17 @@ void loop() {
   toggles();
 }
 
+void leds() {
+  for (int i = 0; i < NUMPIXELS; i++) {
+    pixels.setPixelColor(i, pixels.Color(100, 0, 50));
+    pixels.show();
+  }
+}
+
 void gettemp() {
   //temperature = sensors.getTempCByIndex(0);
-  temperature = 12;
-  Blynk.virtualWrite(V4, sensors.getTempCByIndex(0));
+  temperature = 24;
+  Blynk.virtualWrite(V4, temperature);
 }
 
 void getpushbutton() {
@@ -132,6 +145,7 @@ void getpushbutton() {
   if (digitalRead(button4) == HIGH) {
     setval -= 1;
   }
+  Blynk.virtualWrite(V10, setval);
 }
 
 void thermostat() {
@@ -143,6 +157,15 @@ void thermostat() {
     digitalWrite(heater, LOW);
     vheater.off();
   }
+}
+
+BLYNK_WRITE(V10)
+{
+  blynkset = param.asInt();
+  if (blynkset < 1) {
+    blynkset = 0;
+  }
+  setval = blynkset;
 }
 
 void printval() {
@@ -160,14 +183,14 @@ void printval() {
 }
 
 void toggles() {
-  int switchStatus = digitalRead(button1);   // read status of switch
-  if (switchStatus != switchStatusLast)  // if status of button has changed
+  int switchStatus1 = digitalRead(button1);   // read status of switch
+  if (switchStatus1 != switchStatus1Last)  // if status of button has changed
   {
     // if switch is pressed than change the LED status
-    if (switchStatus == HIGH && switchStatusLast == LOW) LEDStatus = ! LEDStatus;
-      // turn the LED on or off
+    if (switchStatus1 == HIGH && switchStatus1Last == LOW) LEDStatus1 = ! LEDStatus1;
+    // turn the LED on or off
 
-    if (LEDStatus == HIGH) {
+    if (LEDStatus1 == HIGH) {
       vjets1.on();
       digitalWrite(jets1, HIGH);
     }
@@ -176,6 +199,44 @@ void toggles() {
       digitalWrite(jets1, LOW);
     }
 
-    switchStatus = switchStatusLast;
+    switchStatus1 = switchStatus1Last;
+  }
+
+  int switchStatus2 = digitalRead(button2);   // read status of switch
+  if (switchStatus2 != switchStatus2Last)  // if status of button has changed
+  {
+    // if switch is pressed than change the LED status
+    if (switchStatus2 == HIGH && switchStatus2Last == LOW) LEDStatus2 = ! LEDStatus2;
+    // turn the LED on or off
+
+    if (LEDStatus2 == HIGH) {
+      vjets2.on();
+      digitalWrite(jets2, HIGH);
+    }
+    else {
+      vjets2.off();
+      digitalWrite(jets2, LOW);
+    }
+
+    switchStatus2 = switchStatus2Last;
+  }
+
+  int switchStatus3 = digitalRead(button3);   // read status of switch
+  if (switchStatus3 != switchStatus3Last)  // if status of button has changed
+  {
+    // if switch is pressed than change the LED status
+    if (switchStatus3 == HIGH && switchStatus3Last == LOW) LEDStatus3 = ! LEDStatus3;
+    // turn the LED on or off
+
+    if (LEDStatus3 == HIGH) {
+      vcirculation.on();
+      digitalWrite(circulation, HIGH);
+    }
+    else {
+      vcirculation.off();
+      digitalWrite(circulation, LOW);
+    }
+
+    switchStatus2 = switchStatus2Last;
   }
 }
