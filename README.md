@@ -3,7 +3,7 @@ esp32 IoT spa controller via blynk app
 
 ## Demo video
 
-[Video demo](https://youtu.be/)
+[Video demo](https://youtu.be/eIrGtGd5Nj4)
 
 ## Installation
 
