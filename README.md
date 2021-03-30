@@ -23,9 +23,9 @@ esp32 IoT spa controller via blynk app
 * LEDs
 * 5v powersupply
 
-![Schematic]()
+![Schematic](https://github.com/Ceylan-Geysemans/eSPA32/blob/3a0101a3ef078409ee8424af2678e16c6660d90c/images/Screen%20Shot%202021-03-30%20at%2016.30.32.png)
 
-![Image of Setup]()
+![Image of Setup](https://github.com/Ceylan-Geysemans/eSPA32/blob/main/images/IMG_0339.jpeg)
 
 ### Futere advencements
 
