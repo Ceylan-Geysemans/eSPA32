@@ -14,9 +14,9 @@
 
 volatile byte state = LOW;
 
-char auth[] = "JpA7T5Rl44OqH7ViUPBRrS6nT3gdyUln";
-char ssid[] = "thuisdus";
-char pass[] = "Ceylan07";
+char auth[] = "";
+char ssid[] = "";
+char pass[] = "";
 
 #define button1 34 //jets1
 #define button2 35 //jets2
